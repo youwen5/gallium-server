@@ -61,12 +61,22 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;
 
+  services.mbpfan = {
+    enable = true;
+  };
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.runner = {
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" "docker" ]; # Enable ‘sudo’ for the user.
-    packages = with pkgs; [];
+    packages = with pkgs; [
+      btop
+      zellij
+      powertop
+    ];
   };
+
+  users.defaultUserShell = pkgs.fish;
 
   virtualisation.docker.enable = true;
 
@@ -74,6 +84,11 @@
     interactiveShellInit = "set -o vi";
     enableLsColors = true;
     enableCompletion = true;
+  };
+
+  programs.fish = {
+    enable = true;
+    interactiveShellInit = "set -g fish_key_bindings fish_vi_key_bindings";
   };
 
   nixpkgs.config.allowUnfree = true;
@@ -90,7 +105,7 @@
     neovim
   ];
 
-  environment.variables.EDITOR = "vim";
+  environment.variables.EDITOR = "nvim";
 
   programs.git = {
     enable = true;
@@ -118,8 +133,8 @@
   services.openssh.enable = true;
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [ 2222 ];
+  networking.firewall.allowedUDPPorts = [ 2222 ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
