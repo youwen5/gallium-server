@@ -74,6 +74,7 @@
       zellij
       powertop
       gh
+      lazygit
     ];
   };
 
