@@ -134,6 +134,23 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
+  systemd.services.restart-minecraft-server = {
+    description = "Restarts minecraft server docker container";
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.docker}/bin/docker restart minecraft-server-mc-1";
+    };
+  };
+
+  systemd.timers.restart-minecraft-server = {
+    description = "Restart minecraft server daily";
+    timerConfig = {
+      OnCalendar = "*-*-* 05:00:00";
+      Persistent = true;
+    };
+    wantedBy = [ "timers.target" ];
+  };
+
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 2222 ];
   networking.firewall.allowedUDPPorts = [ 2222 ];
@@ -163,6 +180,5 @@
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "24.11"; # Did you read the comment?
-
 }
 
