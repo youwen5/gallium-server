@@ -73,6 +73,7 @@
       btop
       zellij
       powertop
+      gh
     ];
   };
 
