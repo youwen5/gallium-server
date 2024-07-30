@@ -5,10 +5,9 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [ # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -17,7 +16,8 @@
   networking.hostName = "gallium"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable =
+    true; # Easiest to use and most distros use this by default.
 
   # Set your time zone.
   time.timeZone = "America/Los_Angeles";
@@ -37,11 +37,9 @@
   # Enable the X11 windowing system.
   # services.xserver.enable = true;
 
-
   # Enable the GNOME Desktop Environment.
   # services.xserver.displayManager.gdm.enable = true;
   # services.xserver.desktopManager.gnome.enable = true;
-  
 
   # Configure keymap in X11
   # services.xserver.xkb.layout = "us";
@@ -61,14 +59,17 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;
 
-  services.mbpfan = {
-    enable = true;
-  };
+  services.mbpfan = { enable = true; };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.runner = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "docker" "podman" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+      "docker"
+      "podman"
+    ]; # Enable ‘sudo’ for the user.
   };
 
   users.defaultUserShell = pkgs.fish;
@@ -81,9 +82,7 @@
     enableCompletion = true;
   };
 
-  programs.fish = {
-    enable = true;
-  };
+  programs.fish = { enable = true; };
 
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -105,9 +104,7 @@
     enable = true;
     package = pkgs.git;
     config = {
-      init = {
-        defaultBranch = "main";
-      };
+      init = { defaultBranch = "main"; };
       user.name = "Youwen Wu";
       user.email = "youwenw@gmail.com";
     };
@@ -130,7 +127,8 @@
     description = "Restarts minecraft server docker container";
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = "${pkgs.docker}/bin/docker exec minecraft-server-mc-1 rcon-cli say 'The server will restart in 60 seconds!';sleep 60;${pkgs.docker}/bin/docker exec minecraft-server-mc-1 rcon-cli stop;sleep 1;${pkgs.docker}/bin/docker restart minecraft-server-mc-1";
+      ExecStart =
+        "${pkgs.docker}/bin/docker exec minecraft-server-mc-1 rcon-cli say 'The server will restart in 60 seconds!';sleep 60;${pkgs.docker}/bin/docker exec minecraft-server-mc-1 rcon-cli stop;sleep 1;${pkgs.docker}/bin/docker restart minecraft-server-mc-1";
     };
   };
 
@@ -145,10 +143,10 @@
 
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [
-    25565  # for minecraft
-    3000   # for gitea
-    222    # for gitea ssh
-    8100   # for Bluemap
+    25565 # for minecraft
+    3000 # for gitea
+    222 # for gitea ssh
+    8100 # for Bluemap
   ];
   networking.firewall.allowedUDPPorts = [ 25565 3000 222 8100 ];
   # Or disable the firewall altogether.

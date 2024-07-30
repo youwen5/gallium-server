@@ -9,7 +9,7 @@
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs: {
-        formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt;
+    formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt;
     nixosConfigurations = {
       gallium = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -19,7 +19,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-	                home-manager.backupFileExtension = "backup";
+            home-manager.backupFileExtension = "backup";
             home-manager.users.runner = import ./home.nix;
           }
         ];

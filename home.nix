@@ -4,25 +4,38 @@
   home.username = "runner";
   home.homeDirectory = "/home/runner";
 
-  home.packages = with pkgs; [
-    btop
-    powertop
-    lazygit
-    fd
-  ];
+  home.packages = with pkgs; [ powertop ];
 
   programs.readline = {
     enable = true;
     extraConfig = "set editing-mode vi";
   };
 
-  programs.gh.enable = true; 
+  programs.gh.enable = true;
 
   programs.oh-my-posh = {
     enable = true;
     enableFishIntegration = true;
     enableBashIntegration = true;
     useTheme = "nordtron";
+  };
+
+  programs.git = {
+    enable = true;
+    userName = "Youwen Wu";
+    userEmail = "youwenw@gmail.com";
+    delta.enable = true;
+    extraConfig = { init.defaultBranch = "main"; };
+  };
+
+  programs.lazygit = {
+    enable = true;
+    settings = {
+      git.paging = {
+        colorArg = "always";
+        pager = "delta --dark --paging=never";
+      };
+    };
   };
 
   programs.fish = {
@@ -68,6 +81,16 @@
 
   programs.bash.enable = true;
 
+  programs.fd.enable = true;
+
+  programs.btop = {
+    enable = true;
+    settings = {
+      color_theme = "tokyo-night";
+      vim_keys = true;
+    };
+  };
+
   programs.neovim = {
     enable = true;
     defaultEditor = true;
@@ -75,9 +98,7 @@
     vimAlias = true;
   };
 
-  programs.fzf = {
-    enable = true;
-  };
+  programs.fzf = { enable = true; };
 
   programs.eza = {
     enable = true;
