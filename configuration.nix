@@ -68,14 +68,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.runner = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "docker" ]; # Enable ‘sudo’ for the user.
-    packages = with pkgs; [
-      btop
-      zellij
-      powertop
-      gh
-      lazygit
-    ];
+    extraGroups = [ "wheel" "networkmanager" "docker" "podman" ]; # Enable ‘sudo’ for the user.
   };
 
   users.defaultUserShell = pkgs.fish;
@@ -90,7 +83,6 @@
 
   programs.fish = {
     enable = true;
-    interactiveShellInit = "set -g fish_key_bindings fish_vi_key_bindings";
   };
 
   nixpkgs.config.allowUnfree = true;
@@ -138,7 +130,7 @@
     description = "Restarts minecraft server docker container";
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = "${pkgs.docker}/bin/docker restart minecraft-server-mc-1";
+      ExecStart = "${pkgs.docker}/bin/docker exec minecraft-server-mc-1 rcon-cli say 'The server will restart in 60 seconds!';sleep 60;${pkgs.docker}/bin/docker exec minecraft-server-mc-1 rcon-cli stop;sleep 1;${pkgs.docker}/bin/docker restart minecraft-server-mc-1";
     };
   };
 
@@ -152,8 +144,13 @@
   };
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 2222 ];
-  networking.firewall.allowedUDPPorts = [ 2222 ];
+  networking.firewall.allowedTCPPorts = [
+    25565  # for minecraft
+    3000   # for gitea
+    222    # for gitea ssh
+    8100   # for Bluemap
+  ];
+  networking.firewall.allowedUDPPorts = [ 25565 3000 222 8100 ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
