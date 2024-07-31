@@ -17,7 +17,7 @@
     enable = true;
     enableFishIntegration = true;
     enableBashIntegration = true;
-    useTheme = "nordtron";
+    useTheme = "gruvbox";
   };
 
   programs.git = {
