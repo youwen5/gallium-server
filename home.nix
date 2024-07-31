@@ -98,7 +98,7 @@
     vimAlias = true;
   };
 
-  programs.fzf = { enable = true; };
+  programs.fzf.enable = true;
 
   programs.eza = {
     enable = true;
